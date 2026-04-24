@@ -823,3 +823,35 @@ a { color: inherit; }
 
 /* Prevent iOS overscroll bleed */
 .overflow-clip { overflow: clip; }
+
+/* =========================================================================
+   ART GALLERY
+   ========================================================================= */
+
+/* Mobile overlay visible only on mobile */
+.mobile-overlay {
+  display: block;
+}
+@media (min-width: 768px) {
+  .mobile-overlay {
+    display: none;
+  }
+}
+
+/* Asymmetric grid: stack on mobile */
+@media (max-width: 767px) {
+  [style*="gridTemplateColumns: repeat(12"] > div:first-child {
+    grid-column: 1 / 13 !important;
+  }
+  [style*="gridTemplateColumns: repeat(12"] > div:last-child {
+    grid-column: 1 / 13 !important;
+  }
+}
+
+/* Floating logo: hide on very small screens if overlaps island */
+@media (max-width: 380px) {
+  /* FloatingLogo stays; island centers — no conflict at this z-index */
+}
+
+/* Gallery photo hover cursor hint */
+.gallery-photo-hover { cursor: none; }

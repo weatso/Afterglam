@@ -13,6 +13,7 @@ interface ReservationState {
 
   // Actions
   setBranch: (branch: BranchId) => void;
+  setDefaultBranch: () => void;    // Sets HQ if no branch selected yet
   setCategory: (category: CategoryId) => void;
   selectService: (service: Service) => void;
   setTier: (tier: TierId) => void;
@@ -40,6 +41,13 @@ export const useReservationStore = create<ReservationState>((set, get) => ({
 
   setBranch: (branch) => {
     set({ activeBranch: branch, isBranchModalOpen: false, isIslandExpanded: false });
+  },
+
+  setDefaultBranch: () => {
+    const { activeBranch } = get();
+    if (!activeBranch) {
+      set({ activeBranch: "hq" });
+    }
   },
 
   setCategory: (category) => {

@@ -208,6 +208,29 @@ export default function DynamicIsland() {
                     <span style={{ fontFamily: "var(--font-ui)", fontSize: 11, color: "rgba(255,255,255,0.55)" }}>{branch?.hours}</span>
                   </div>
                 </div>
+
+                {/* Quick Actions */}
+                <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
+                  <a
+                    href={`https://wa.me/${branch?.whatsapp}?text=${encodeURIComponent("Halo Afterglam, saya ingin info layanan dan reservasi.")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ flex: 1, textDecoration: "none" }}
+                  >
+                    <button style={{ width: "100%", padding: "8px", borderRadius: "var(--radius-sm)", border: "none", background: "#25d366", color: "white", fontFamily: "var(--font-ui)", fontSize: 11, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+                      WhatsApp
+                    </button>
+                  </a>
+                  <button
+                    onClick={() => {
+                      collapseIsland();
+                      window.location.href = "/reservation";
+                    }}
+                    style={{ flex: 1, padding: "8px", borderRadius: "var(--radius-sm)", border: "1px solid rgba(255,255,255,0.15)", background: "rgba(255,255,255,0.05)", color: "white", fontFamily: "var(--font-ui)", fontSize: 11, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+                  >
+                    Pricelist
+                  </button>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

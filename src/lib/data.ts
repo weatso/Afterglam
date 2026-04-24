@@ -64,7 +64,7 @@ export const branches: Branch[] = [
     name: "Afterglam Central",
     shortName: "Central",
     address: "Jl. Raya Pusat, Semarang",
-    whatsapp: "6281234567890",   // ⚠️ GANTI dengan nomor WA asli cabang Central
+    whatsapp: "6287779668055",   // Dummy nomor dari user
     tagline: "Flagship Studio",
     hours: "09.00 – 21.00 WIB",
     mapsUrl: "https://maps.google.com",
@@ -74,7 +74,7 @@ export const branches: Branch[] = [
     name: "Afterglam KK",
     shortName: "KK",
     address: "Kampung Kali, Semarang",
-    whatsapp: "6281234567891",   // ⚠️ GANTI dengan nomor WA asli cabang KK
+    whatsapp: "6287779668055",   // Dummy nomor dari user
     tagline: "Kampung Kali Studio",
     hours: "09.00 – 21.00 WIB",
     mapsUrl: "https://maps.google.com",
@@ -485,4 +485,60 @@ export function getPopularServices(limit = 6): { service: Service; category: Ser
     }
   }
   return result.slice(0, limit);
+}
+
+// ==========================================================================
+// ART GALLERY ASSETS
+// Source: /public/ folder — add more photos here as you receive them.
+// layout options: "large-vertical" | "large-horizontal" | "small-square"
+// ==========================================================================
+export type GalleryLayout = "large-vertical" | "large-horizontal" | "small-square";
+
+export interface GalleryAsset {
+  id: string;
+  category: CategoryId;
+  title: string;
+  subtitle?: string;
+  imageAfter: string;
+  imageBefore?: string;   // Optional — only present for Before/After pairs
+  layout: GalleryLayout;
+  featured?: boolean;     // Pinned to hero / top of grid
+}
+
+export const artGalleryAssets: GalleryAsset[] = [
+  {
+    id: "gal-1",
+    category: "lash",
+    title: "Chinese Lash Artistry",
+    subtitle: "Natural · Defined",
+    imageAfter: "/After.jpg",
+    imageBefore: "/Before.jpg",
+    layout: "large-vertical",
+    featured: true,
+  },
+  {
+    id: "gal-2",
+    category: "lash",
+    title: "Signature Lash Work",
+    subtitle: "Premium Lash Studio",
+    imageAfter: "/Porto Lash.jpg",
+    layout: "large-horizontal",
+    featured: true,
+  },
+  // ── Add more assets below as you receive photos ──
+  // {
+  //   id: "gal-3",
+  //   category: "nails",
+  //   title: "Gel Art Collection",
+  //   imageAfter: "/images/nail-art-1.jpg",
+  //   layout: "small-square",
+  // },
+];
+
+export function getFeaturedAssets(): GalleryAsset[] {
+  return artGalleryAssets.filter((a) => a.featured);
+}
+
+export function getAssetsByCategory(cat: CategoryId): GalleryAsset[] {
+  return artGalleryAssets.filter((a) => a.category === cat);
 }
