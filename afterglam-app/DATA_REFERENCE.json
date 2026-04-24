@@ -1,0 +1,303 @@
+{
+  "_info": {
+    "title": "Afterglam Beauty Studio — Master Data Reference",
+    "description": "Export data lengkap semua cabang, tier, kategori, dan harga layanan Afterglam. File ini bisa dipakai sebagai referensi atau seed database.",
+    "source": "BOOKLET AFTERGLAM_2025.pdf + BOOKLET KK_2025.pdf",
+    "generated": "2026-04-24",
+    "note": "Harga dalam Rupiah (IDR). Semua harga adalah estimasi — konfirmasi ke masing-masing cabang."
+  },
+  "branches": [
+    {
+      "id": "hq",
+      "name": "Afterglam Central",
+      "tagline": "Flagship Studio",
+      "address": "Jl. Raya Pusat, Semarang",
+      "whatsapp": "6281234567890",
+      "hours": "09.00 – 21.00 WIB"
+    },
+    {
+      "id": "kk",
+      "name": "Afterglam KK",
+      "tagline": "Kampung Kali Studio",
+      "address": "Kampung Kali, Semarang",
+      "whatsapp": "6281234567891",
+      "hours": "09.00 – 21.00 WIB"
+    }
+  ],
+  "tiers": [
+    { "id": "regular",  "label": "Regular",  "description": "Teknisi bersertifikat" },
+    { "id": "premium",  "label": "Premium",  "description": "Spesialis senior" },
+    { "id": "manager",  "label": "Manager",  "description": "Kepala teknisi" }
+  ],
+  "categories": [
+    {
+      "id": "lash",
+      "name": "Eyelash",
+      "services": [
+        {
+          "id": "single_lash",
+          "name": "Single Lash",
+          "duration": "90 min",
+          "badge": "Bestseller",
+          "pricing": {
+            "hq": { "regular": 250000, "premium": 300000, "manager": 350000 },
+            "kk": { "regular": 275000, "premium": 330000, "manager": 385000 }
+          },
+          "retouchPricing": {
+            "hq": { "regular": 200000, "premium": 250000, "manager": 300000 },
+            "kk": { "regular": 200000, "premium": 250000, "manager": 300000 }
+          }
+        },
+        {
+          "id": "double_lash",
+          "name": "Double Lash",
+          "duration": "100 min",
+          "pricing": {
+            "hq": { "regular": 350000, "premium": 400000, "manager": 450000 },
+            "kk": { "regular": 385000, "premium": 440000, "manager": 500000 }
+          },
+          "retouchPricing": {
+            "hq": { "regular": 250000, "premium": 300000, "manager": 350000 },
+            "kk": { "regular": 250000, "premium": 300000, "manager": 350000 }
+          }
+        },
+        {
+          "id": "russian_lash",
+          "name": "Russian Volume",
+          "duration": "120 min",
+          "badge": "Premium",
+          "pricing": {
+            "hq": { "regular": 450000, "premium": 500000, "manager": 500000 },
+            "kk": { "regular": 500000, "premium": 550000, "manager": 650000 }
+          },
+          "retouchPricing": {
+            "hq": { "regular": 350000, "premium": 400000, "manager": 400000 },
+            "kk": { "regular": 350000, "premium": 400000, "manager": 400000 }
+          }
+        },
+        {
+          "id": "fairy_lash",
+          "name": "Fairy Lash",
+          "duration": "100 min",
+          "pricing": {
+            "hq": { "regular": 300000, "premium": 350000, "manager": 400000 },
+            "kk": { "regular": 330000, "premium": 385000, "manager": 440000 }
+          },
+          "retouchPricing": {
+            "hq": { "regular": 220000, "premium": 270000, "manager": 320000 },
+            "kk": { "regular": 220000, "premium": 270000, "manager": 320000 }
+          }
+        },
+        {
+          "id": "kawaii_lash",
+          "name": "Kawaii Lash",
+          "duration": "90 min",
+          "pricing": {
+            "hq": { "regular": 280000, "premium": 330000, "manager": 380000 },
+            "kk": { "regular": 310000, "premium": 365000, "manager": 415000 }
+          },
+          "retouchPricing": {
+            "hq": { "regular": 200000, "premium": 250000, "manager": 300000 },
+            "kk": { "regular": 200000, "premium": 250000, "manager": 300000 }
+          }
+        },
+        {
+          "id": "lash_filler",
+          "name": "Lash Filler",
+          "duration": "60 min",
+          "badge": "No Extension",
+          "pricing": {
+            "hq": { "regular": 300000, "premium": 300000, "manager": 300000 },
+            "kk": { "regular": 330000, "premium": 330000, "manager": 330000 }
+          }
+        },
+        {
+          "id": "lash_lift",
+          "name": "Lash Lift",
+          "duration": "60 min",
+          "pricing": {
+            "hq": { "regular": 250000, "premium": 250000, "manager": 250000 },
+            "kk": { "regular": 200000, "premium": 200000, "manager": 200000 }
+          }
+        }
+      ]
+    },
+    {
+      "id": "brow",
+      "name": "Eyebrow",
+      "services": [
+        {
+          "id": "brow_lamination",
+          "name": "Brow Lamination",
+          "duration": "60 min",
+          "badge": "Trending",
+          "pricing": {
+            "hq": { "regular": 300000, "premium": 300000, "manager": 300000 },
+            "kk": { "regular": 330000, "premium": 330000, "manager": 330000 }
+          }
+        },
+        {
+          "id": "brow_lamination_threading_tinting",
+          "name": "Brow Lam + Thread + Tint",
+          "duration": "75 min",
+          "badge": "All-in-One",
+          "pricing": {
+            "hq": { "regular": 350000, "premium": 350000, "manager": 350000 },
+            "kk": { "regular": 385000, "premium": 385000, "manager": 385000 }
+          }
+        },
+        {
+          "id": "brow_threading",
+          "name": "Brow Threading",
+          "duration": "20 min",
+          "pricing": {
+            "hq": { "regular": 50000, "premium": 50000, "manager": 50000 },
+            "kk": { "regular": 55000, "premium": 55000, "manager": 55000 }
+          }
+        },
+        {
+          "id": "brow_tinting",
+          "name": "Brow Tinting",
+          "duration": "30 min",
+          "pricing": {
+            "hq": { "regular": 80000, "premium": 80000, "manager": 80000 },
+            "kk": { "regular": 90000, "premium": 90000, "manager": 90000 }
+          }
+        }
+      ]
+    },
+    {
+      "id": "nails",
+      "name": "Nails",
+      "services": [
+        {
+          "id": "manicure_express",
+          "name": "Manicure Express",
+          "duration": "30 min",
+          "pricing": {
+            "hq": { "regular": 80000, "premium": 80000, "manager": 80000 },
+            "kk": { "regular": 90000, "premium": 90000, "manager": 90000 }
+          }
+        },
+        {
+          "id": "pedicure_express",
+          "name": "Pedicure Express",
+          "duration": "45 min",
+          "pricing": {
+            "hq": { "regular": 90000, "premium": 90000, "manager": 90000 },
+            "kk": { "regular": 100000, "premium": 100000, "manager": 100000 }
+          }
+        },
+        {
+          "id": "gel_manicure",
+          "name": "Gel Manicure",
+          "duration": "60 min",
+          "badge": "Bestseller",
+          "pricing": {
+            "hq": { "regular": 150000, "premium": 180000, "manager": 200000 },
+            "kk": { "regular": 165000, "premium": 200000, "manager": 220000 }
+          }
+        },
+        {
+          "id": "gel_pedicure",
+          "name": "Gel Pedicure",
+          "duration": "75 min",
+          "pricing": {
+            "hq": { "regular": 170000, "premium": 200000, "manager": 220000 },
+            "kk": { "regular": 185000, "premium": 220000, "manager": 240000 }
+          }
+        },
+        {
+          "id": "nail_art",
+          "name": "Nail Art",
+          "duration": "90 min",
+          "badge": "Custom",
+          "pricing": {
+            "hq": { "regular": 200000, "premium": 250000, "manager": 300000 },
+            "kk": { "regular": 220000, "premium": 275000, "manager": 330000 }
+          }
+        },
+        {
+          "id": "milky_moist_mani",
+          "name": "Milky Moist Manicure",
+          "duration": "75 min",
+          "badge": "Premium",
+          "pricing": {
+            "hq": { "regular": 200000, "premium": 230000, "manager": 260000 },
+            "kk": { "regular": 230000, "premium": 265000, "manager": 300000 }
+          }
+        },
+        {
+          "id": "milky_moist_pedi",
+          "name": "Milky Moist Pedicure",
+          "duration": "90 min",
+          "pricing": {
+            "hq": { "regular": 220000, "premium": 250000, "manager": 280000 },
+            "kk": { "regular": 250000, "premium": 285000, "manager": 320000 }
+          }
+        }
+      ]
+    },
+    {
+      "id": "waxing",
+      "name": "Waxing",
+      "services": [
+        {
+          "id": "underarms_waxing",
+          "name": "Under Arms",
+          "duration": "15 min",
+          "pricing": {
+            "hq": { "regular": 100000, "premium": 100000, "manager": 100000 },
+            "kk": { "regular": 110000, "premium": 110000, "manager": 110000 }
+          }
+        },
+        {
+          "id": "arm_waxing",
+          "name": "Full Arms",
+          "duration": "30 min",
+          "pricing": {
+            "hq": { "regular": 150000, "premium": 150000, "manager": 150000 },
+            "kk": { "regular": 165000, "premium": 165000, "manager": 165000 }
+          }
+        },
+        {
+          "id": "leg_waxing",
+          "name": "Full Legs",
+          "duration": "45 min",
+          "pricing": {
+            "hq": { "regular": 200000, "premium": 200000, "manager": 200000 },
+            "kk": { "regular": 220000, "premium": 220000, "manager": 220000 }
+          }
+        },
+        {
+          "id": "bikini_line",
+          "name": "Bikini Line",
+          "duration": "20 min",
+          "badge": "Popular",
+          "pricing": {
+            "hq": { "regular": 150000, "premium": 150000, "manager": 150000 },
+            "kk": { "regular": 275000, "premium": 275000, "manager": 275000 }
+          }
+        },
+        {
+          "id": "brazilian",
+          "name": "Brazilian",
+          "duration": "30 min",
+          "pricing": {
+            "hq": { "regular": 325000, "premium": 325000, "manager": 325000 },
+            "kk": { "regular": 350000, "premium": 350000, "manager": 350000 }
+          }
+        },
+        {
+          "id": "upper_lip",
+          "name": "Upper Lip",
+          "duration": "10 min",
+          "pricing": {
+            "hq": { "regular": 50000, "premium": 50000, "manager": 50000 },
+            "kk": { "regular": 55000, "premium": 55000, "manager": 55000 }
+          }
+        }
+      ]
+    }
+  ]
+}
