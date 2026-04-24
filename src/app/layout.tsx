@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, DM_Sans, Inter } from "next/font/google";
 import "./globals.css";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -26,8 +27,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Afterglam Beauty Studio — Premium Lash, Nail & Brow",
-  description:
-    "Reservasi layanan Lash, Brow, Nails, dan Waxing premium di Afterglam Beauty Studio. Pilih cabang, tentukan teknisi, dan langsung booking via WhatsApp.",
+  description: "Reservasi layanan Lash, Brow, Nails, dan Waxing premium di Afterglam Beauty Studio. Pilih cabang, tentukan teknisi, dan langsung booking via WhatsApp.",
   keywords: "afterglam, lash extension, nail art, brow lamination, waxing, salon semarang",
   openGraph: {
     title: "Afterglam Beauty Studio",
@@ -36,17 +36,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="id" className={`${playfair.variable} ${dmSans.variable} ${inter.variable}`}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       </head>
-      <body>{children}</body>
+      <body>
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
+      </body>
     </html>
   );
 }

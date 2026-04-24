@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { useReservationStore } from "@/store/useReservationStore";
 import { branches } from "@/lib/data";
-import { MapPin, Clock, ChevronDown, ChevronUp, X } from "lucide-react";
+import { MapPin, Clock, X, MessageCircle, ChevronDown } from "lucide-react";
 
 /* ─────────────────────────────────────────────
    BRANCH SELECTION MODAL
@@ -104,138 +104,186 @@ function BranchModal() {
 }
 
 /* ─────────────────────────────────────────────
-   DYNAMIC ISLAND PILL
+   MORPHING NAV HEADER (Dynamic Island V2)
 ───────────────────────────────────────────── */
 export default function DynamicIsland() {
-  const {
-    activeBranch,
-    isIslandExpanded,
-    expandIsland,
-    collapseIsland,
-    openBranchModal,
-  } = useReservationStore();
+  const { activeBranch, openBranchModal } = useReservationStore();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (latest > 50 && !isScrolled) setIsScrolled(true);
+    if (latest <= 50 && isScrolled) setIsScrolled(false);
+  });
 
   const branch = branches.find((b) => b.id === activeBranch);
 
-  const handleClick = () => {
-    if (!activeBranch) {
-      openBranchModal();
-      return;
-    }
-    if (isIslandExpanded) collapseIsland();
-    else expandIsland();
-  };
-
   return (
     <>
-      {/* Island */}
-      <div className="island-wrapper">
+      {/* Container posisinya fixed di atas */}
+      <div 
+        style={{
+          position: "fixed",
+          top: isScrolled ? 16 : 24,
+          left: 0,
+          right: 0,
+          display: "flex",
+          justifyContent: "center",
+          zIndex: 999,
+          paddingInline: 16,
+          pointerEvents: "none",
+        }}
+      >
         <motion.div
-          className="island-pill"
-          onClick={handleClick}
           layout
-          transition={{ type: "spring", stiffness: 420, damping: 32 }}
+          transition={{ type: "spring", stiffness: 350, damping: 30 }}
+          style={{
+            pointerEvents: "all",
+            background: isScrolled ? "rgba(26, 15, 10, 0.85)" : "transparent",
+            backdropFilter: isScrolled ? "blur(24px) saturate(1.6)" : "none",
+            WebkitBackdropFilter: isScrolled ? "blur(24px) saturate(1.6)" : "none",
+            border: isScrolled ? "1px solid rgba(255,255,255,0.12)" : "none",
+            borderRadius: isScrolled ? 24 : 0,
+            boxShadow: isScrolled ? "0 8px 32px rgba(0,0,0,0.2)" : "none",
+            padding: isScrolled ? "10px 20px" : "0px",
+            // Jika scroll, melebar maksimal 1200px (full lebar container), jika belum scroll hanya selebar logo
+            width: isScrolled ? "100%" : "auto",
+            maxWidth: isScrolled ? 1200 : "auto",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: isScrolled ? "space-between" : "center",
+            overflow: "hidden",
+          }}
         >
-          <AnimatePresence mode="wait">
-            {!activeBranch ? (
-              /* ── No Branch Selected ── */
-              <motion.div
-                key="no-branch"
-                className="island-inner"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <span className="island-dot island-dot-pulse" />
-                <span className="island-label">Pilih Lokasi Studio</span>
-              </motion.div>
+          {/* KIRI / TENGAH: Logo */}
+          <motion.div layout style={{ flexShrink: 0, display: "flex", alignItems: "center" }}>
+            <Image
+              src="/logo.png"
+              alt="Afterglam"
+              width={isScrolled ? 110 : 150} // Logo mengecil sedikit saat scroll
+              height={isScrolled ? 34 : 54}
+              style={{
+                objectFit: "contain",
+                filter: "brightness(0) invert(1) opacity(0.95)",
+                transition: "all 0.3s ease",
+              }}
+              priority
+            />
+          </motion.div>
 
-            ) : !isIslandExpanded ? (
-              /* ── Compact ── */
+          {/* KANAN: Konten yang menyamping saat discroll */}
+          <AnimatePresence>
+            {isScrolled && (
               <motion.div
-                key="compact"
-                className="island-inner"
-                initial={{ opacity: 0, x: -8 }}
+                initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 8 }}
-                transition={{ duration: 0.2 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ delay: 0.1, duration: 0.3 }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 20,
+                  marginLeft: "auto",
+                }}
               >
-                <span className="island-dot island-dot-active" />
-                <div>
-                  <p className="island-tagline">{branch?.tagline}</p>
-                  <p className="island-label">{branch?.name}</p>
-                </div>
-                <ChevronDown size={14} color="rgba(255,255,255,0.5)" style={{ marginLeft: 2 }} />
-              </motion.div>
-
-            ) : (
-              /* ── Expanded ── */
-              <motion.div
-                key="expanded"
-                className="island-expanded"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                style={{ display: "flex", flexDirection: "column", gap: 10, width: "min(320px, 80vw)" }}
-              >
-                {/* Top row */}
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span className="island-dot island-dot-active" />
-                    <p className="island-label">{branch?.name}</p>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); openBranchModal(); }}
-                      style={{ fontFamily: "var(--font-ui)", fontSize: 11, fontWeight: 600, color: "var(--rose-300)", background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}
-                    >
-                      Ganti
-                    </button>
-                    <ChevronUp size={14} color="rgba(255,255,255,0.4)" />
-                  </div>
+                {/* Info Cabang (Disembunyikan di layar HP kecil agar tidak menumpuk) */}
+                <div className="nav-branch-info" style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                  {activeBranch && (
+                    <>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                        <MapPin size={13} color="var(--rose-400)" />
+                        <span style={{ fontFamily: "var(--font-ui)", fontSize: 12, color: "rgba(255,255,255,0.85)" }}>
+                          {branch?.address}
+                        </span>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                        <Clock size={13} color="var(--rose-400)" />
+                        <span style={{ fontFamily: "var(--font-ui)", fontSize: 12, color: "rgba(255,255,255,0.85)" }}>
+                          {branch?.hours}
+                        </span>
+                      </div>
+                    </>
+                  )}
                 </div>
 
-                {/* Details */}
-                <div style={{ display: "flex", flexDirection: "column", gap: 4, paddingLeft: 16 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <MapPin size={11} color="rgba(255,255,255,0.4)" />
-                    <span style={{ fontFamily: "var(--font-ui)", fontSize: 11, color: "rgba(255,255,255,0.55)" }}>{branch?.address}</span>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <Clock size={11} color="rgba(255,255,255,0.4)" />
-                    <span style={{ fontFamily: "var(--font-ui)", fontSize: 11, color: "rgba(255,255,255,0.55)" }}>{branch?.hours}</span>
-                  </div>
-                </div>
+                <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.15)", marginInline: 4 }} className="nav-divider" />
 
-                {/* Quick Actions */}
-                <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
-                  <a
-                    href={`https://wa.me/${branch?.whatsapp}?text=${encodeURIComponent("Halo Afterglam, saya ingin info layanan dan reservasi.")}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ flex: 1, textDecoration: "none" }}
-                  >
-                    <button style={{ width: "100%", padding: "8px", borderRadius: "var(--radius-sm)", border: "none", background: "#25d366", color: "white", fontFamily: "var(--font-ui)", fontSize: 11, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
-                      WhatsApp
-                    </button>
-                  </a>
+                {/* Tombol Interaksi */}
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  {/* Selector Cabang */}
                   <button
-                    onClick={() => {
-                      collapseIsland();
-                      window.location.href = "/reservation";
+                    onClick={openBranchModal}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 6,
+                      background: "rgba(255,255,255,0.1)",
+                      border: "1px solid rgba(255,255,255,0.15)",
+                      borderRadius: "var(--radius-pill)",
+                      padding: "8px 14px",
+                      cursor: "pointer",
+                      transition: "all 0.2s ease",
+                      color: "white",
                     }}
-                    style={{ flex: 1, padding: "8px", borderRadius: "var(--radius-sm)", border: "1px solid rgba(255,255,255,0.15)", background: "rgba(255,255,255,0.05)", color: "white", fontFamily: "var(--font-ui)", fontSize: 11, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+                    onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,0.2)"}
+                    onMouseOut={e => e.currentTarget.style.background = "rgba(255,255,255,0.1)"}
                   >
-                    Pricelist
+                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: activeBranch ? "#4ade80" : "var(--rose-400)" }} />
+                    <span style={{ fontFamily: "var(--font-ui)", fontSize: 12, fontWeight: 600 }}>
+                      {activeBranch ? branch?.shortName : "Pilih Studio"}
+                    </span>
+                    <ChevronDown size={14} color="rgba(255,255,255,0.6)" />
                   </button>
+
+                  {/* WhatsApp CTA (Hanya muncul jika cabang sudah terpilih) */}
+                  {activeBranch && (
+                    <a
+                      href={`https://wa.me/${branch?.whatsapp}?text=${encodeURIComponent("Halo Afterglam, saya ingin info layanan dan reservasi.")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ textDecoration: "none" }}
+                    >
+                      <button
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 6,
+                          background: "#25d366",
+                          border: "none",
+                          borderRadius: "var(--radius-pill)",
+                          padding: "8px 16px",
+                          cursor: "pointer",
+                          color: "white",
+                          fontFamily: "var(--font-ui)",
+                          fontSize: 12,
+                          fontWeight: 700,
+                          transition: "transform 0.2s ease",
+                        }}
+                        onMouseOver={e => e.currentTarget.style.transform = "scale(1.04)"}
+                        onMouseOut={e => e.currentTarget.style.transform = "scale(1)"}
+                      >
+                        <MessageCircle size={14} />
+                        <span className="wa-text">WhatsApp</span>
+                      </button>
+                    </a>
+                  )}
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
         </motion.div>
       </div>
+
+      {/* ── CSS Khusus untuk responsivitas Header ini ── */}
+      <style>{`
+        @media (max-width: 860px) {
+          .nav-branch-info { display: none !important; }
+          .nav-divider { display: none !important; }
+        }
+        @media (max-width: 480px) {
+          .wa-text { display: none; }
+        }
+      `}</style>
 
       {/* Branch Modal */}
       <BranchModal />

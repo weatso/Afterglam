@@ -9,7 +9,6 @@ import {
 } from "@/lib/data";
 import { useReservationStore } from "@/store/useReservationStore";
 import CategoryIcon from "@/components/CategoryIcon";
-import FloatingLogo from "@/components/FloatingLogo";
 import DynamicIsland from "@/components/DynamicIsland";
 import HeroVideo from "@/components/HeroVideo";
 import ArtGallerySection from "@/components/ArtGallerySection";
@@ -349,7 +348,6 @@ function Footer() {
 export default function LandingPage() {
   return (
     <>
-      <FloatingLogo />
       <DynamicIsland />
       <main>
         <HeroVideo />
